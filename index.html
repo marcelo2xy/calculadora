@@ -8,37 +8,39 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #212121;
+            background-color: #121212;
+            color: #e0e0e0;
             max-width: 400px;
             margin: auto;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         h1 {
             text-align: center;
-            color: #1976d2;
+            color: #90caf9;
             margin-bottom: 20px;
         }
         label {
             margin-top: 10px;
             font-weight: bold;
             display: block;
+            color: #b0b0b0;
         }
         input {
             margin: 10px 0;
             padding: 15px;
-            border: 1px solid #ccc;
+            border: 1px solid #333333;
+            background-color: #222222;
             border-radius: 4px;
+            color: #e0e0e0;
             font-size: 16px;
             box-sizing: border-box;
             width: 100%;
             transition: border-color 0.3s;
         }
         input:focus {
-            border-color: #1976d2;
+            border-color: #90caf9;
             outline: none;
         }
         button {
@@ -57,17 +59,17 @@
             margin-top: 10px;
         }
         .btn-calcular {
-            background-color: #1976d2;
+            background-color: #1e88e5;
         }
         .btn-calcular:hover {
             background-color: #1565c0;
         }
         .btn-limpar {
-            background-color: #e0e0e0;
-            color: #212121;
+            background-color: #555555;
+            color: #e0e0e0;
         }
         .btn-limpar:hover {
-            background-color: #bdbdbd;
+            background-color: #424242;
         }
         ul {
             list-style-type: none;
@@ -75,28 +77,51 @@
             margin-top: 20px;
         }
         li {
-            background-color: #e3f2fd;
+            background-color: #333333;
             margin: 5px 0;
             padding: 10px;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: #e0e0e0;
+            flex-direction: column;
         }
         .remover {
             background: none;
             border: none;
-            color: red;
+            color: #f44336;
             cursor: pointer;
             font-size: 18px;
+            margin-top: 5px;
         }
         .remover:hover {
-            color: darkred;
+            color: #d32f2f;
         }
+        /* Estilo do item de destaque com GIF de troféu */
         .destaque {
             font-weight: bold;
-            color: #388e3c;
-            border: 2px solid #388e3c;
+            color: #66bb6a;
+            border: 2px solid #66bb6a;
+            position: relative;
+            padding-left: 30px;
+        }
+        .destaque::before {
+            content: '';
+            background-image: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjQwbmkycHpmZnljbXV3eGl5MGVuMHowMnRrdzZ3YjE0dTBmbWtrbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VGUxZZPz33xqyqDlUF/giphy.gif');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .timestamp {
+            font-size: 0.85em;
+            color: #b0b0b0;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -135,15 +160,16 @@
 
             const diferenca = pesoAtual - pesoFinal;
             const porcentagem = (diferenca / pesoAtual) * 100;
+            const timestamp = new Date().toLocaleString('pt-BR'); // Obtém a data e hora atuais
 
             const resultado = `${nome}: Diferença de ${diferenca.toFixed(2)} kg (${porcentagem.toFixed(2)}%)`;
-            adicionarResultado(resultado, porcentagem);
+            adicionarResultado(resultado, porcentagem, timestamp);
         }
 
-        function adicionarResultado(resultado, porcentagem) {
+        function adicionarResultado(resultado, porcentagem, timestamp) {
             const lista = document.getElementById('listaResultados');
             const item = document.createElement('li');
-            item.textContent = resultado;
+            item.innerHTML = `<div>${resultado}</div><div class="timestamp">${timestamp}</div>`;
 
             const botaoRemover = document.createElement('button');
             botaoRemover.innerHTML = '<i class="fas fa-trash-alt"></i>';
