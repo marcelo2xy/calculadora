@@ -7,50 +7,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            max-width: 600px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #212121;
+            max-width: 400px;
             margin: auto;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             background: white;
         }
         h1 {
             text-align: center;
-            color: #2c3e50;
+            color: #1976d2;
+            margin-bottom: 20px;
         }
         label {
             margin-top: 10px;
             font-weight: bold;
             display: block;
         }
-        input, button {
+        input {
             margin: 10px 0;
-            padding: 10px;
-            width: calc(50% - 10px);
+            padding: 15px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
+            width: 100%;
+            transition: border-color 0.3s;
         }
         input:focus {
-            border-color: #3498db;
+            border-color: #1976d2;
             outline: none;
         }
         button {
-            background-color: #3498db;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
             color: white;
+            font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
+            flex: 1;
         }
         .btn-container {
             display: flex;
             justify-content: space-between;
+            margin-top: 10px;
+        }
+        .btn-calcular {
+            background-color: #1976d2;
+        }
+        .btn-calcular:hover {
+            background-color: #1565c0;
+        }
+        .btn-limpar {
+            background-color: #e0e0e0;
+            color: #212121;
+        }
+        .btn-limpar:hover {
+            background-color: #bdbdbd;
         }
         ul {
             list-style-type: none;
@@ -58,10 +75,10 @@
             margin-top: 20px;
         }
         li {
-            background-color: #ecf0f1;
+            background-color: #e3f2fd;
             margin: 5px 0;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -72,20 +89,19 @@
             color: red;
             cursor: pointer;
             font-size: 18px;
-            margin-left: 10px;
         }
         .remover:hover {
             color: darkred;
         }
         .destaque {
             font-weight: bold;
-            color: #27ae60;
-            border: 2px solid #27ae60;
+            color: #388e3c;
+            border: 2px solid #388e3c;
         }
     </style>
 </head>
 <body>
-    <h1>Calculadora de Diferença de Peso</h1>
+    <h1>Calculadora de Peso</h1>
     
     <label for="nome">Nome:</label>
     <input type="text" id="nome" placeholder="Insira seu nome" required>
@@ -97,8 +113,8 @@
     <input type="number" id="pesoFinal" placeholder="Insira seu peso final" required>
 
     <div class="btn-container">
-        <button onclick="calcularDiferenca()">Calcular Diferença</button>
-        <button onclick="limparCampos()">Limpar Campos</button>
+        <button class="btn-calcular" onclick="calcularDiferenca()">Calcular Diferença</button>
+        <button class="btn-limpar" onclick="limparCampos()">Limpar Campos</button>
     </div>
 
     <h2>Resultados</h2>
