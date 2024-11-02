@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Peso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            display: block;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(50% - 10px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background-color: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .remover {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        .remover:hover {
+            color: darkred;
+        }
+        .destaque {
+            font-weight: bold;
+            color: #27ae60;
+            border: 2px solid #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Diferença de Peso</h1>
+    
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" placeholder="Insira seu nome" required>
+
+    <label for="pesoAtual">Peso Atual (kg):</label>
+    <input type="number" id="pesoAtual" placeholder="Insira seu peso atual" required>
+
+    <label for="pesoFinal">Peso Final (kg):</label>
+    <input type="number" id="pesoFinal" placeholder="Insira seu peso final" required>
+
+    <div class="btn-container">
+        <button onclick="calcularDiferenca()">Calcular Diferença</button>
+        <button onclick="limparCampos()">Limpar Campos</button>
+    </div>
+
+    <h2>Resultados</h2>
+    <ul id="listaResultados"></ul>
+
+    <script>
+        let maiorPorcentagem = 0;
+
+        function calcularDiferenca() {
+            const nome = document.getElementById('nome').value;
+            const pesoAtual = parseFloat(document.getElementById('pesoAtual').value);
+            const pesoFinal = parseFloat(document.getElementById('pesoFinal').value);
+            
+            if (isNaN(pesoAtual) || isNaN(pesoFinal) || pesoAtual <= 0 || nome.trim() === "") {
+                alert("Por favor, insira valores válidos.");
+                return;
+            }
+
+            const diferenca = pesoAtual - pesoFinal;
+            const porcentagem = (diferenca / pesoAtual) * 100;
+
+            const resultado = `${nome}: Diferença de ${diferenca.toFixed(2)} kg (${porcentagem.toFixed(2)}%)`;
+            adicionarResultado(resultado, porcentagem);
+        }
+
+        function adicionarResultado(resultado, porcentagem) {
+            const lista = document.getElementById('listaResultados');
+            const item = document.createElement('li');
+            item.textContent = resultado;
+
+            const botaoRemover = document.createElement('button');
+            botaoRemover.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            botaoRemover.className = 'remover';
+            botaoRemover.onclick = () => {
+                lista.removeChild(item);
+                verificarMaiorPorcentagem();
+            };
+
+            item.appendChild(botaoRemover);
+            lista.appendChild(item);
+
+            if (porcentagem > maiorPorcentagem) {
+                maiorPorcentagem = porcentagem;
+                destacarMaiorPorcentagem(item);
+            }
+        }
+
+        function destacarMaiorPorcentagem(item) {
+            const lista = document.getElementById('listaResultados');
+            for (let li of lista.children) {
+                li.classList.remove('destaque');
+            }
+            item.classList.add('destaque');
+        }
+
+        function verificarMaiorPorcentagem() {
+            maiorPorcentagem = 0;
+            const lista = document.getElementById('listaResultados').children;
+            for (let li of lista) {
+                const porcentagem = parseFloat(li.textContent.match(/\(([^)]+)%\)/)[1]);
+                if (porcentagem > maiorPorcentagem) {
+                    maiorPorcentagem = porcentagem;
+                }
+            }
+            destacarMaiorPorcentagemComBaseNaMaiorPorcentagem();
+        }
+
+        function destacarMaiorPorcentagemComBaseNaMaiorPorcentagem() {
+            const lista = document.getElementById('listaResultados');
+            for (let li of lista.children) {
+                const porcentagem = parseFloat(li.textContent.match(/\(([^)]+)%\)/)[1]);
+                li.classList.toggle('destaque', porcentagem === maiorPorcentagem);
+            }
+        }
+
+        function limparCampos() {
+            document.getElementById('nome').value = '';
+            document.getElementById('pesoAtual').value = '';
+            document.getElementById('pesoFinal').value = '';
+        }
+    </script>
+</body>
+</html>
